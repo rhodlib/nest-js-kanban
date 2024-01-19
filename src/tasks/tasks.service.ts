@@ -11,8 +11,12 @@ export class TasksService {
         status: TaskStatus.DONE
     }]
 
+    getTaskById(id: string){
+        return this.tasks.find(t => t.id === id);
+    }
+
     getAllTasks(){
-        return this.tasks
+        return this.tasks;
     }
 
     createTask(title: string, description: string){
@@ -25,6 +29,15 @@ export class TasksService {
         this.tasks.push(task)
         return task;
     }
-    updateTask(){}
-    deleteTask(){}
+
+    updateTask(id: string, updatedFields: any){
+        const task = this.getTaskById(id)
+        const newTask = Object.assign(task, updatedFields)
+        this.tasks = this.tasks.map(t => t.id === id ? newTask : t)
+        return newTask;
+    }
+
+    deleteTask(id: string){
+        this.tasks = this.tasks.filter(t => t.id !== id);
+    }
 }
